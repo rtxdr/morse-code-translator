@@ -12,11 +12,17 @@
 3. [TODO List](#todo-list)
 
 ## Usage
-Install **main.py**, cd in the directory where you installed it and run it using python :
+To run the program, simply run :
+```
+git clone https://github.com/rtxdr/morse-code-translator
+```
+```
+cd morse-code-translator
+```
 ```
 python main.py
 ```
-Note : If you're using Windows Powershell or Windows' command prompt, you can be presented to an error saying that "python wasn't a recognized command", to fix it, i suggest you modify your PATH for python.exe
+Note : If you're using Windows Powershell or Windows' command prompt, you can be presented to an error saying that "python/git wasn't a recognized command", to fix it, i suggest you modify your PATH for the programs
 
 ## About
 It's a simple (unfinished and obsolete) python program that translates and encodes morse code, it's usage is very simple.\
