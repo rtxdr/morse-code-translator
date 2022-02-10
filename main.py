@@ -1,11 +1,8 @@
 #=PYTHON MORSE CODE TRANSLATOR=#
 #
 # TODO : Make file export work
-# TODO : Add more options
-# TODO : 
-#
-#
-#
+# TODO : Add more settings
+# ! shit doesnt work
 
 import platform
 import os
@@ -15,6 +12,24 @@ currentPlatform = platform.system()
 isUnix = False
 hasTextImported = False
 importedTextPath = ""
+spaceOption = " "
+
+#MORSE ALPHABET
+morseDictionnary = {'A':'.-', 'B':'-...',
+                    'C':'-.-.', 'D':'-..', 'E':'.',
+                    'F':'..-.', 'G':'--.', 'H':'....',
+                    'I':'..', 'J':'.---', 'K':'-.-',
+                    'L':'.-..', 'M':'--', 'N':'-.',
+                    'O':'---', 'P':'.--.', 'Q':'--.-',
+                    'R':'.-.', 'S':'...', 'T':'-',
+                    'U':'..-', 'V':'...-', 'W':'.--',
+                    'X':'-..-', 'Y':'-.--', 'Z':'--..',
+                    '1':'.----', '2':'..---', '3':'...--',
+                    '4':'....-', '5':'.....', '6':'-....',
+                    '7':'--...', '8':'---..', '9':'----.',
+                    '0':'-----', ',':'--..--', '.':'.-.-.-',
+                    '?':'..--..', '/':'-..-.', '-':'-....-',
+                    '(':'-.--.', ')':'-.--.-'}
 
 #CHECKING FOR OS TYPE
 if currentPlatform == "Windows":
@@ -25,28 +40,6 @@ else:
 ###############
 #   CLASSES   #
 ###############
-class basicmessages:                #BASIC MESSAGES      
-    NOFILE = "File not found."
-    BADFILE = "Invalid file."
-    BADOPTION = "Invalid option."
-
-class filemanips:                   #FILE MANIPULATIONS
-    def importTextFile():
-        print("placeholder IMP TXT FILE")
-    def exportTextFile():
-        print("placeholder EXP TXT FILE")
-
-class translations:                 #TRANSLATION FUNCTIONS
-    def morseToText():
-        print("placeholder MTT")
-    def textToMorse():
-        print("placeholder TTM")
-
-class settings:                     #SETTINGS FUNCTIONS
-    def changePlatformMode():
-        global isUnix
-        isUnix = not isUnix
-
 class tools:                        #TOOLS FUNCTIONS
     def clearConsole():
         command = 'clear'
@@ -54,10 +47,105 @@ class tools:                        #TOOLS FUNCTIONS
             command = 'cls'
         os.system(command)
 
+class basicmessages:                #BASIC MESSAGES      
+    NOFILE = "File not found."
+    BADFILE = "Invalid file."
+    BADOPTION = "Invalid option."
+
+class filemanips:                   #FILE MANIPULATIONS
+    def importTextFile():
+        tools.clearConsole()
+        print("Insert file path, write X to return")
+        txtFilePath = input("""
+    >> """)
+        if txtFilePath == "X":
+            tools.clearConsole()
+            splash()
+            options()
+        else:
+            open(txtFilePath, 'r')
+    def exportTextFile():
+        tools.clearConsole()
+        print("placeholder EXP TXT FILE")
+
+class translations:                 #TRANSLATION FUNCTIONS
+    global encryptToMorse
+    global decryptMorse
+    def encryptToMorse(message):
+        finalMessage = ''
+        for letter in message:
+            if letter != ' ':
+                finalMessage += morseDictionnary[letter] + ' '
+            else:
+                finalMessage += spaceOption
+        return finalMessage
+    def decryptMorse(message):
+        message += ' '
+        finalMessage = ''
+        citext = ''
+        for letter in message:
+            if (letter != ' '):
+                i = 0
+                citext += letter
+            else:
+                i += 1
+                if i == 2:
+                    finalMessage += ' '
+                else:
+                    finalMessage += list(morseDictionnary.keys())[list(morseDictionnary.values()).index(citext)]
+                    citext = '' #i legit stole this from a tutorial cause i legit don't understand anything
+        return finalMessage
+
+    def textToMorse():
+        tools.clearConsole()
+        print("""Insert your text
+        """)  
+        textInput = input(">>")
+        print(encryptToMorse(textInput.upper()))
+
+    def morseToText():
+        tools.clearConsole()
+        print("""Insert your morse code text (USE DOUBLE SPACES FOR SPACES)
+        """)  
+        morseInput = input(">>")
+        print(decryptMorse(morseInput))
+        
+class settings:                     #SETTINGS FUNCTIONS
+    def changePlatformMode():
+        global isUnix
+        isUnix = not isUnix
+    def changeSpaceMode():
+        global spaceOption
+        tools.clearConsole()
+        print("""Please select a spacing option:
+    1. Use double spacing
+    2. Use no spacing
+    3. Use '/'
+    
+    0. Return""")
+
+        spacemodeSelection = int(input("""
+    >> """))
+        if spacemodeSelection == 1:
+            spaceOption = " "
+            tools.clearConsole()
+            settingsMenu()
+        elif spacemodeSelection == 2:
+            spaceOption = ""
+            tools.clearConsole()
+            settingsMenu()
+        elif spacemodeSelection == 3:
+            spaceOption = "/ "
+            tools.clearConsole()
+            settingsMenu()
+        else:
+            tools.clearConsole()
+            settingsMenu()
+
 ########################
 #   PLATFORM CHECKER   #
 ########################
-def checkForPlatform():   
+def platformSetup():   
     global isUnix
     global color
     if isUnix == False:
@@ -97,6 +185,7 @@ def settingsMenu():         #SETTINGS MENU
         print("1. Force Unix mode")
     elif isUnix == True:
         print("1. Force Windows mode")
+    print("2. Spacing options" + color.GREEN + " (Currently used : \"" + str(spaceOption) + "\")" + color.END)
     print("0. Exit")
 
     optionSelect = int(input("""
@@ -104,16 +193,19 @@ def settingsMenu():         #SETTINGS MENU
 
     if optionSelect == 1:
         settings.changePlatformMode()
-        checkForPlatform()
+        platformSetup()
+        tools.clearConsole()
+        splash()
+        options()
+    elif optionSelect == 2:
+        settings.changeSpaceMode()
+    else:
         tools.clearConsole()
         splash()
         options()
 
-
-
 def splash():               #BIG TEXT SPLASH
-    print(color.PURPLE + """
-██████╗░██╗░░░██╗███╗░░░███╗░█████╗░
+    print(color.PURPLE + """██████╗░██╗░░░██╗███╗░░░███╗░█████╗░
 ██╔══██╗╚██╗░██╔╝████╗░████║██╔══██╗
 ██████╔╝░╚████╔╝░██╔████╔██║██║░░╚═╝
 ██╔═══╝░░░╚██╔╝░░██║╚██╔╝██║██║░░██╗
@@ -175,6 +267,6 @@ def options():              #OPTIONS
 #   MAIN   #
 ############
 tools.clearConsole()
-checkForPlatform()
+platformSetup()
 splash()
 options()
