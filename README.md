@@ -25,7 +25,7 @@ python main.py
 Note : If you're using Windows Powershell or Windows' command prompt, you can be presented to an error saying that "python/git wasn't a recognized command", to fix it, i suggest you modify your PATH for the programs
 
 ## About
-It's a simple (unfinished and obsolete) python program that translates and encodes morse code, it's usage is very simple.\
+It's a simple (unfinished) python program that translates and encodes morse code, it's usage is very simple.\
 Once you run the program, you're presented to a menu with multiple options that are self explanatory.
 ![image](assets/unixmenu.png)
 
