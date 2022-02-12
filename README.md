@@ -31,5 +31,5 @@ Once you run the program, you're presented to a menu with multiple options that 
 
 I've removed the colors on Windows systems because they would cause errors in CMD aswell as Powershell, if you still wish to use the colors for some reason then you can force Unix mode in the settings menu. The only reason you'd use this is if you use an external terminal on Windows.
 ## TODO List
-- Make the program work in the first place
+- Make file importing/exporting work
 - Add more settings
