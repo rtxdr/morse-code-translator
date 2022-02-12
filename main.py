@@ -2,7 +2,6 @@
 #
 # TODO : Make file export work
 # TODO : Add more settings
-# ! shit doesnt work
 
 import platform
 import os
